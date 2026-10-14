@@ -35,4 +35,16 @@ object BankConfig {
         "com.isracard.hatavot",          // ישראכארט
         "com.onoapps.cal4u"              // כאל
     ) - KIOSK_PACKAGE // הגנה כפולה: הקיוסק לעולם לא ייכלל
+
+    /**
+     * אפליקציות שלא מוחקים את הנתונים שלהן (כדי לא לגרום ל-OTP), אלא רק סוגרים
+     * בכוח (force-stop). זה מנתק את המשתמש המחובר - הבא בתור יצטרך להזין סיסמה.
+     */
+    val FORCE_STOP_PACKAGES: Set<String> = setOf(
+        "com.ideomobile.hapoalim",       // בנק הפועלים
+        "com.MizrahiTefahot.nh"          // בנק מזרחי-טפחות
+    ) - KIOSK_PACKAGE
+
+    /** כל האפליקציות שנעקבות (פתיחה שלהן מתחילה טיימר ונרשמת לניקוי/סגירה). */
+    val TRACKED_PACKAGES: Set<String> get() = CLEAR_DATA_PACKAGES + FORCE_STOP_PACKAGES
 }

@@ -69,6 +69,11 @@ object RootUtils {
         return result?.contains("Success") == true
     }
 
+    /** סוגר אפליקציה בכוח - מנתק session פעיל בלי למחוק נתונים. */
+    fun forceStop(packageName: String) {
+        runAsRoot("am force-stop $packageName")
+    }
+
     /** קובץ סימון: חותמת הזמן שלו = מתי בוצע הניקוי האחרון. */
     private const val MARKER_FILE = "/data/local/tmp/exitbutton_last_clean"
 

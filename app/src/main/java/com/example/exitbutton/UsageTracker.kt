@@ -48,7 +48,7 @@ class UsageTracker(private val context: Context) {
             events.getNextEvent(event)
             @Suppress("DEPRECATION")
             val isForeground = event.eventType == UsageEvents.Event.MOVE_TO_FOREGROUND
-            if (isForeground && event.packageName in BankConfig.CLEAR_DATA_PACKAGES) {
+            if (isForeground && event.packageName in BankConfig.TRACKED_PACKAGES) {
                 result.putIfAbsent(event.packageName, event.timeStamp)
             }
         }

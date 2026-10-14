@@ -116,10 +116,14 @@ class OverlayService : Service() {
         Thread {
             // גיבוי: אם אפליקציית בנק פתוחה עכשיו ועוד לא נרשמה - לנקות גם אותה
             RootUtils.getForegroundPackage()?.let { pkg ->
-                if (pkg in BankConfig.CLEAR_DATA_PACKAGES) toClear.add(pkg)
+                if (pkg in BankConfig.TRACKED_PACKAGES) toClear.add(pkg)
             }
             for (pkg in toClear) {
-                if (pkg != BankConfig.KIOSK_PACKAGE) RootUtils.clearAppData(pkg)
+                when {
+                    pkg == BankConfig.KIOSK_PACKAGE -> {}
+                    pkg in BankConfig.FORCE_STOP_PACKAGES -> RootUtils.forceStop(pkg)
+                    pkg in BankConfig.CLEAR_DATA_PACKAGES -> RootUtils.clearAppData(pkg)
+                }
             }
             handler.post {
                 state.reset(System.currentTimeMillis())
